@@ -4,6 +4,9 @@ $(document).ready(function () {
     $("#City").show();
     $("#PostalCode").hide();
     $("#Latitude").hide();
+
+    loadLocalStorage();
+
     $("input[type ='radio']").click(
         function (evt) {
             var searchButton = evt.target;
@@ -30,6 +33,8 @@ $(document).ready(function () {
         }
     )
 
+
+
     $("#SearchButton").click(
         function (evt) {
 
@@ -44,7 +49,6 @@ $(document).ready(function () {
                 if (this.readyState == 4 && this.status == 200) {
 
                     var SearchResponse = this.responseText;
-                    //document.getElementById("ResponseText").innerHTML = SearchResponse;
 
                     var obj = JSON.parse(SearchResponse);
 
@@ -70,7 +74,7 @@ $(document).ready(function () {
                     //Initially the checkboxes are checked and gives us the full result when we trigger a search.
                     //But user can uncheck checkboxes that they dont need on the results that will be printed,
                     //Take not that full results will still be available in the table logs.
-                    if ($('#checkLongitude').is(':checked')) { 
+                    if ($('#checkLongitude').is(':checked')) {
                         SearchResultsHTML += "Longitude: " + longitude + "<br />";
                     }
                     if ($('#checkLatitude').is(':checked')) {
@@ -100,6 +104,7 @@ $(document).ready(function () {
 
                     $("#currentWeather").html(SearchResultsHTML);
 
+                    //create a table to log the results of each search that is made.
                     weatherTable(obj);
 
                 };
@@ -136,11 +141,51 @@ $(document).ready(function () {
 
     var mainElement = document.getElementById("weatherLog");
 
+
     function weatherTable(weather) {
-        
-        weather.id = $.now(); 
+
+        weather.id = $.now();
         var row = $('<tr>');
         var html = '<td>' + weather.name + '</td>' +
+            '<td>' + weather.sys.country + '</td>' +
+            '<td>' + weather.coord.lon + '</td>' +
+            '<td>' + weather.coord.lat + '</td>' +
+            '<td>' + weather.weather[0].description + '</td>' +
+            '<td>' + (weather.main.temp - 273.15).toFixed(2) + '</td>' +
+            '<td>' + weather.main.pressure + '</td>' +
+            '<td>' + weather.main.humidity + '</td>' +
+            '<td>' + weather.wind.speed + '</td>' +
+            '<td>' + weather.wind.deg + '</td>' +
+            '<td>' + new Date(weather.sys.sunrise * 1000).toLocaleTimeString() + '</td>' +
+            '<td>' + new Date(weather.sys.sunset * 1000).toLocaleTimeString() + '</td>' +
+            '<td><a class="delete" href="#">DELETE</a></td>';
+        row.data().weatherID = weather.id;
+        row.append(html);
+        //save in the the browser's Local Storage
+        saveLocalStorage(weather);
+
+        $(mainElement).find('table#searchLog tbody').append(row);
+        $(mainElement).find('#search :input').val('');
+
+    }
+
+    function saveLocalStorage(weather) {
+        var currentWeather = localStorage.getItem('weather');
+        var storage = [];
+        if (currentWeather == true) {
+            storage = JSON.parse(currentWeather);
+        }
+        storage.push(weather);
+        localStorage.setItem('weather', JSON.stringify(storage));
+    }
+
+    function loadLocalStorage() {
+        var weather = localStorage.getItem('weather');
+        if (weather) {
+            weatherArray = JSON.parse(weather);
+            $.each(weatherArray, function (index, weather) {
+                var row = $('<tr>');
+                var html = '<td>' + weather.name + '</td>' +
                     '<td>' + weather.sys.country + '</td>' +
                     '<td>' + weather.coord.lon + '</td>' +
                     '<td>' + weather.coord.lat + '</td>' +
@@ -153,23 +198,16 @@ $(document).ready(function () {
                     '<td>' + new Date(weather.sys.sunrise * 1000).toLocaleTimeString() + '</td>' +
                     '<td>' + new Date(weather.sys.sunset * 1000).toLocaleTimeString() + '</td>' +
                     '<td><a class="delete" href="#">DELETE</a></td>';
-        row.data().weatherID = weather.id;
-        row.append(html);
-        saveLocalStorage(weather);
-        $(mainElement).find('table#searchLog tbody').append(row);
-        $(mainElement).find('#search :input').val('');
-    }
 
-    function saveLocalStorage(weather){
-        var currentWeather = localStorage.getItem('weather');
-        var storage = [];
-        if(currentWeather==true){
-            storage = JSON.parse(currentWeather);
+                row.data().weatherID = weather.id;
+                row.append(html);
+                $(mainElement).find('table#searchLog tbody').append(row);
+            })
+
         }
-        storage.push(weather);
-        localStorage.setItem('weather',JSON.stringify(storage));
     }
 
+    //delete all weather data
     $(mainElement).find("a.deleteAll").click(
         function (evt) {
             evt.preventDefault();
@@ -178,5 +216,27 @@ $(document).ready(function () {
         }
     );
 
+    //delete weather data
+    $(mainElement).on("click", "a.delete",
+        function (evt) {
+            evt.preventDefault();
+            deleteWeather(evt);
+        }
+    );
+
+    //function to delete weather
+    function deleteWeather(event){
+        var weatherID = $(event.target).parents('tr').data().weatherID;
+        var weather = JSON.parse(localStorage.getItem('weather'));
+        var currentWeather = weather.filter(function(newWeather){
+            return newWeather.id !=weatherID;
+        });
+        localStorage.setItem('weather',JSON.stringify(currentWeather));
+        $(event.target).parents('tr').remove();
+        
+    }
+
 
 })
+
+
