@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+
     $("#City").show();
     $("#PostalCode").hide();
     $("#Latitude").hide();
@@ -79,7 +80,7 @@ $(document).ready(function () {
                         SearchResultsHTML += "Temperature: " + convertedTemp + "°C" + "<br />";
                     }
                     if ($('#checkPressure').is(':checked')) {
-                        SearchResultsHTML += "Latitude: " + latitude + "<br />";
+                        SearchResultsHTML += "Pressure: " + pressure + "<br />";
                     }
                     if ($('#checkHumidity').is(':checked')) {
                         SearchResultsHTML += "Humidity: " + humidity + "<br />";
@@ -99,7 +100,7 @@ $(document).ready(function () {
 
                     $("#currentWeather").html(SearchResultsHTML);
 
-                    saveWeatherLog(obj);
+                    weatherTable(obj);
 
                 };
             }
@@ -110,7 +111,7 @@ $(document).ready(function () {
             var CountryCodeTxt = $("#CountryCodetxt").val();
             var Latitude1 = $("#txtLatitude").val();
             var Longtitude1 = $("#txtLongtitude").val();
-            var apiKey = "f37a9f3c3f3e9855c9e2e54ce9565bf8";
+            var apiKey = "0ce883d431a40d2f3301142f74f3dd8e";
 
             if (document.getElementById('radioCity').checked) {
                 SearchString = "http://api.openweathermap.org/data/2.5/weather" +
@@ -135,7 +136,7 @@ $(document).ready(function () {
 
     var mainElement = document.getElementById("weatherLog");
 
-    function saveWeatherLog(weather) {
+    function weatherTable(weather) {
         
         weather.id = $.now(); 
         var row = $('<tr>');
@@ -154,11 +155,28 @@ $(document).ready(function () {
                     '<td><a class="delete" href="#">DELETE</a></td>';
         row.data().weatherID = weather.id;
         row.append(html);
-        //store(weather);
+        saveLocalStorage(weather);
         $(mainElement).find('table#searchLog tbody').append(row);
         $(mainElement).find('#search :input').val('');
     }
 
+    function saveLocalStorage(weather){
+        var currentWeather = localStorage.getItem('weather');
+        var storage = [];
+        if(currentWeather==true){
+            storage = JSON.parse(currentWeather);
+        }
+        storage.push(weather);
+        localStorage.setItem('weather',JSON.stringify(storage));
+    }
+
+    $(mainElement).find("a.deleteAll").click(
+        function (evt) {
+            evt.preventDefault();
+            localStorage.clear();
+            $(mainElement).find('table#searchLog tbody').empty();
+        }
+    );
 
 
 })
