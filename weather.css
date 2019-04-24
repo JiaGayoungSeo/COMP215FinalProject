@@ -1,0 +1,14 @@
+
+body{
+    background-image: url('images/photo.jpeg');
+
+}
+.container{
+    background-color: rgba( 255, 255, 255, 0.5 );
+}
+.validate:invalid{
+    background:darkturquoise;
+}
+.validate:valid{
+    background: rgba( 255, 255, 255, 0.5 );
+}
