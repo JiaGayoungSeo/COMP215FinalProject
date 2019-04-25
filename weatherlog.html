@@ -86,27 +86,28 @@
                 </div>
                 <div class="row">
 
+                    <!--All text boxes are required. Input boxes should follow the validation rules-->
                     <div class="col-lg-8" id="search">
                         <div class="formRow" id="City">
-                            City Name: <input class="validate" type="text" name="txtCityName" id="txtCityName" required>
-                            Country Code: <input class="validate" type="text" name="txtCountryCode" id="txtCountryCode"
+                            City Name: <input class="validated" type="text" name="txtCityName" id="txtCityName" required>
+                            Country Code: <input class="validated" type="text" name="txtCountryCode" id="txtCountryCode"
                                 pattern="[a-zA-Z]{2}" required>
                         </div>
                         <div class="formRow" id="PostalCode">
-                            Postal Code: <input class="validate" type="text" name="txtPostalCode" id="txtPostalCode"
+                            Postal Code: <input class="validated" type="text" name="txtPostalCode" id="txtPostalCode"
                                 pattern="[A-Z][0-9][A-Z]" required>
-                            Country Code: <input class="validate" type="text" name="CountryCodetxt" id="CountryCodetxt"
+                            Country Code: <input class="validated" type="text" name="CountryCodetxt" id="CountryCodetxt"
                                 pattern="[a-zA-Z]{2}" required>
                         </div>
                         <div class="formRow" id="Latitude">
-                            Latitude: <input class="validate" type="number" name="txtLatitude" id="txtLatitude"
+                            Latitude: <input class="validated" type="number" name="txtLatitude" id="txtLatitude"
                                 min="-90" max="90" placeholder="-90 to 90">
-                            Longitude: <input class="validate" type="number" name="txtLongitude" id="txtLongtitude"
+                            Longitude: <input class="validated" type="number" name="txtLongitude" id="txtLongtitude"
                                 min="-180" max="180" placeholder="-180 to 180">
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <input type="button" value="Search" id="SearchButton">
+                        <input type="submit" value="Search" id="SearchButton">
                     </div>
                 </div>
 

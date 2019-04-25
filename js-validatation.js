@@ -1,16 +1,13 @@
 
-var cityName = document.getElementById('txtCityName');
 var countryCode = document.getElementById('txtCountryCode');
 var postalCode = document.getElementById('txtPostalCode');
 var country_Code = document.getElementById('CountryCodetxt');
 var latitude = document.getElementById('txtLatitude');
-var longitude = document.getElementById('txtLontitude');
+var longitude = document.getElementById('txtLongtitude');
 
-cityName.oninput = function(event){
-    cityName.checkValidity();
-}
+
 countryCode.oninput = function(event){
-    countryCode.checkValidity();
+    countryCode.checkValidity(); // check valid state, and force raise oninvalid if needed
 }
 
 postalCode.oninput = function(event){
@@ -28,31 +25,72 @@ longitude.oninput = function(event){
     longitude.checkValidity();
 }
 
-cityName.oninvalid = checkInput; 
-countryCode.oninvalid = checkInput;
+countryCode.oninvalid = checkInput; // assigning event handler by using a named function
 country_Code.oninvalid = checkInput; 
 postalCode.oninvalid = checkInput;
 latitude.oninvalid = checkInput;
 longitude.oninvalid = checkInput;
 
 function checkInput(event){
-    InputBox = event.target;
-    InputBox.setCustomValidity("");
+    InputBox = event.target;//global variable
 
+    //if any validation constraint fails
     if (!InputBox.validity.valid) {
-        // if any validation constraint fails
+        if(InputBox == countryCode){//compare global with specific variable or textboxes
+            InputBox.setCustomValidity(""); // clear out the validity message
+            if(InputBox.value.length==0){
+                InputBox.setCustomValidity("Please provide city name");
+            }
+            
+        }
+        if(InputBox == countryCode){
+            InputBox.setCustomValidity("");
+            if(InputBox.validity.valueMissing){
+                InputBox.setCustomValidity("Custom message: Value is missing");
+            }
+            if(InputBox.value.length<2){
+                InputBox.setCustomValidity("Custom message: Country code should be 2 characters");
+            }
+    
+        }
+        if(InputBox == country_Code){
+            InputBox.setCustomValidity("");
+            if(InputBox.validity.valueMissing){
+                InputBox.setCustomValidity("Custom message: Value is missing");
+            }
+            if(InputBox.value.length<2){
+                InputBox.setCustomValidity("Custom message: Country code should be 2 characters");
+            }
+        
+        }
+        if(InputBox==postalCode){
+            InputBox.setCustomValidity("");
+            if(InputBox.validity.valueMissing){
+                InputBox.setCustomValidity("Custom message: Value is missing");
+            }
+            if(InputBox.validity.patterMismatch){
+                InputBox.setCustomValidity("Custom message: Follow the provided format");
+            }
+        }
+        if(InputBox==latitude){
+            InputBox.setCustomValidity("");
+            if(InputBox.validity.valueMissing){
+                InputBox.setCustomValidity("Custom message: Please type latitude");
+            }
 
-        if (InputBox.validity.rangeOverflow) {
-            InputBox.setCustomValidity("Custom Message: Value too large"); 
+            if(InputBox.validity.typeMismatch){
+                InputBox.setCustomValidity("Custom message: Value is not a number(Should enter number)");
+            }
         }
-        if (InputBox.validity.rangeUnderflow) {
-            InputBox.setCustomValidity("Custom Message: Value too small");
-        }
-        if (InputBox.validity.valueMissing) {
-            InputBox.setCustomValidity("Custom Message: Value is missing");
-        }
-        if (InputBox.validity.typeMismatch) {
-            InputBox.setCustomValidity("Custom Message: Value is not a number (type mismatch)");
+
+        if(InputBox==longitude){
+            InputBox.setCustomValidity("");
+            if(InputBox.validity.valueMissing){
+                InputBox.setCustomValidity("Custom message: Please type longitude");
+            }
+            if(InputBox.validity.typeMismatch){
+                InputBox.setCustomValidity("Custom message: Value is not a number(Should enter number)");
+            }
         }
     }
 }
