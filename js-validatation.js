@@ -36,13 +36,7 @@ function checkInput(event){
 
     //if any validation constraint fails
     if (!InputBox.validity.valid) {
-        if(InputBox == countryCode){//compare global with specific variable or textboxes
-            InputBox.setCustomValidity(""); // clear out the validity message
-            if(InputBox.value.length==0){
-                InputBox.setCustomValidity("Please provide city name");
-            }
-            
-        }
+        
         if(InputBox == countryCode){
             InputBox.setCustomValidity("");
             if(InputBox.validity.valueMissing){
@@ -68,7 +62,7 @@ function checkInput(event){
             if(InputBox.validity.valueMissing){
                 InputBox.setCustomValidity("Custom message: Value is missing");
             }
-            if(InputBox.validity.patterMismatch){
+            if(InputBox.validity.patternMismatch){
                 InputBox.setCustomValidity("Custom message: Follow the provided format");
             }
         }
