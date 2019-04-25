@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    //function to show appropriate input boxes when eahc search option is selected.
     $("input[type ='radio']").click(
         function (evt) {
             var searchButton = evt.target;

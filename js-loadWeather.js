@@ -9,12 +9,13 @@ $(document).ready(function () {
 
     loadData();
 
+    //function to load and display data from local storage 
     function loadData() {
-        var storedWeather = localStorage.getItem('weather'); //key to Local storage
-        if (storedWeather) { // check if we have any data in storedWeather.
-            weatherArray = JSON.parse(storedWeather); // convert data into an array of objects
+        var storedWeather = localStorage.getItem('weather'); 
+        if (storedWeather) { //check if there are any data
+            weatherArray = JSON.parse(storedWeather); //convert data into an array of objects
             $.each(weatherArray, function (index, weather) {
-                var row = $('<tr>'); // create an empty row object
+                var row = $('<tr>'); //create an empty row object
                 var html = '<td>' + weather.name + '</td>' +
                     '<td>' + weather.sys.country + '</td>' +
                     '<td>' + weather.coord.lon + '</td>' +
@@ -32,7 +33,7 @@ $(document).ready(function () {
                
                 row.data().weatherID = weather.id;
 
-                row.append(html); // attach html of td's to blank row
+                row.append(html); //attach html of td's to blank row
                 $(mainElement).find('table#searchLog tbody').append(row);
             });
         }

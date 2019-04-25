@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <!--Place Bootstrap-->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!--place CSS rules-->
     <link rel="stylesheet" href="weather.css">
@@ -20,15 +21,15 @@
         <main id="weatherLog">
             <h2>OpenWeatherMap Weather Log</h2>
             <form>
+                <!--Weather Search input form-->
                 <div class="row">
-                    <!--Weather Search input form-->
                     <h4 class="title col-lg-4">Search by:</h4>
+                    <!--search options-->
                     <div class="col-lg-6 searchBy">
                         <label class="radio-inline"><input type="radio" name="SearchBy" id="radioCity" value="1"
                                 checked> City Name</label>
                         <label class="radio-inline"><input type="radio" name="SearchBy" id="radioPostal" value="2">
-                            Postal
-                            Code</label>
+                            Postal Code</label>
                         <label class="radio-inline"><input type="radio" name="SearchBy" id="radioLatitude" value="3">
                             Latitude/Longitude</label>
                     </div>
@@ -86,15 +87,19 @@
                 </div>
                 <div class="row">
 
-                    <!--All text boxes are required. Input boxes should follow the validation rules-->
+                    <!--All input text boxes are required. Input boxes should follow the validation rules-->
                     <div class="col-lg-8" id="search">
                         <div class="formRow" id="City">
-                            City Name: <input class="validated" type="text" name="txtCityName" id="txtCityName" required placeholder="ig.regina">
-                            Country Code: <input class="validated" type="text" name="txtCountryCode" id="txtCountryCode" pattern="[a-zA-Z]{2}" required placeholder="ig.ca">
+                            City Name: <input class="validated" type="text" name="txtCityName" id="txtCityName" required
+                                placeholder="ig.regina">
+                            Country Code: <input class="validated" type="text" name="txtCountryCode" id="txtCountryCode"
+                                pattern="[a-zA-Z]{2}" required placeholder="ig.ca">
                         </div>
                         <div class="formRow" id="PostalCode">
-                            Postal Code: <input class="validated" type="text" name="txtPostalCode" id="txtPostalCode" pattern="[A-Z][0-9][A-Z]" required placeholder="ig. S6H">
-                            Country Code: <input class="validated" type="text" name="CountryCodetxt" id="CountryCodetxt" pattern="[a-zA-Z]{2}" required placeholder="CA">
+                            Postal Code: <input class="validated" type="text" name="txtPostalCode" id="txtPostalCode"
+                                pattern="[A-Z][0-9][A-Z]" required placeholder="ig. S6H">
+                            Country Code: <input class="validated" type="text" name="CountryCodetxt" id="CountryCodetxt"
+                                pattern="[a-zA-Z]{2}" required placeholder="CA">
                         </div>
                         <div class="formRow" id="Latitude">
                             Latitude: <input class="validated" type="number" name="txtLatitude" id="txtLatitude"
@@ -104,12 +109,15 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
+                        <!--When Search button clicks, it checks validation and shows error messages if invalid-->
+                        <!--If all are valid, it shows the result of the weather users search for-->
                         <input type="submit" value="Search" id="SearchButton">
                     </div>
                 </div>
 
             </form>
             &nbsp;&nbsp;
+            <!--Display weather search results part using bootstrap-->
             <div class="row currentWeather">
                 <div class="col-lg-12">
                     <h4>CURRENT WEATHER</h4>
@@ -121,36 +129,37 @@
                 </div>
             </div>
 
-            <div class="table-responsive table-bordered" id="weatherLog">
-                <table id="searchLog">
-                    <thead>
-                        <tr>
-                            <th>City</th>
-                            <th>Country</th>
-                            <th>Longtitude</th>
-                            <th>Latitude</th>
-                            <th>Weather</th>
-                            <th>Temperature</th>
-                            <th>Pressure</th>
-                            <th>Humidity</th>
-                            <th>Wind Speed</th>
-                            <th>Wind Direction</th>
-                            <th>Sunrise</th>
-                            <th>Sunset</th>
-                            <th><a class="deleteAll" href="#">Clear log</a></th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+            <div class="row" id="weatherLog">
+                    <table class="table table-responsive table-bordered" id="searchLog">
+                        <thead>
+                            <tr>
+                                <th>City</th>
+                                <th>Country</th>
+                                <th>Longtitude</th>
+                                <th>Latitude</th>
+                                <th>Weather</th>
+                                <th>Temperature</th>
+                                <th>Pressure</th>
+                                <th>Humidity</th>
+                                <th>Wind Speed</th>
+                                <th>Wind Direction</th>
+                                <th>Sunrise</th>
+                                <th>Sunset</th>
+                                <th><a class="deleteAll" href="#">Clear log</a></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
             </div>
+
         </main>
         <footer class="footer">
             <div class="copyright">
-                    &copy; Copyright 2019 All Rights Reserved
+                &copy; Copyright 2019 All Rights Reserved
             </div>
             <div class="contact">
-                 Jia Gayoung Seo</br>
-                 seo8556@saskpolytech.ca
+                Jia Gayoung Seo</br>
+                seo8556@saskpolytech.ca
             </div>
         </footer>
 

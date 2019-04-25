@@ -2,16 +2,14 @@ $(document).ready(function(){
     var mainElement = document.getElementById("weatherLog");
 
     $("#SearchButton").click(
+
         function (evt) {
 
-            var xhttp = new XMLHttpRequest(); // (1) create an XMLHttpRequest object
+            var xhttp = new XMLHttpRequest(); //create an XMLHttpRequest object
 
-            //(2) Important part: implement an eventhandler that is called
-            //when the XMLHttpReqest Object
-            //has received a response(or an error)
+            //implement an event handler that is called when the XMLHttpRequest object has received a reponse(or an error)
             xhttp.onreadystatechange = function () {
-                //Call back function (event handler)
-                //process response from the server.
+                //call back function: process response from the server
                 if (this.readyState == 4 && this.status == 200) {
 
                     var SearchResponse = this.responseText;
@@ -28,18 +26,15 @@ $(document).ready(function(){
                     var wind_speed = obj["wind"]["speed"];
                     var humidity = obj["main"]["humidity"];
                     var wind_direction = obj["wind"]["deg"];
-                    var sunrise = new Date(obj["sys"]["sunrise"] * 1000).toLocaleTimeString();
-                    var sunset = new Date(obj["sys"]["sunset"] * 1000).toLocaleTimeString();
+                    var sunrise = new Date(obj["sys"]["sunrise"] * 1000).toLocaleTimeString();//to get current local time and output the time
+                    var sunset = new Date(obj["sys"]["sunset"] * 1000).toLocaleTimeString();//to get current local time and output the time 
 
-                    var convertedTemp = temp.toFixed(2); //Setting decimal places of converted temperature.
+                    var convertedTemp = temp.toFixed(2); 
 
                     var SearchResultsHTML = "City: " + city_name + "<br />" +
                         "Country: " + country_name + "<br />" +
                         "Weather: " + weather_description + "<br />";
-                    //if statements for the checkbox.
-                    //Initially the checkboxes are checked and gives us the full result when we trigger a search.
-                    //But user can uncheck checkboxes that they dont need on the results that will be printed,
-                    //Take not that full results will still be available in the table logs.
+                    
                     if ($('#checkLongitude').is(':checked')) {
                         SearchResultsHTML += "Longitude: " + longitude + "<br />";
                     }
@@ -70,12 +65,13 @@ $(document).ready(function(){
 
                     $("#currentWeather").html(SearchResultsHTML);
 
-                    //create a table to log the results of each search that is made.
+                   
                     weatherTable(obj);
 
                 };
             }
 
+            //compose and send request
             var CityName = $("#txtCityName").val();
             var txtCountryCode = $("#txtCountryCode").val();
             var Postal = $("#txtPostalCode").val();
@@ -98,15 +94,16 @@ $(document).ready(function(){
                     "&APPID=" + apiKey;
             }
 
-            xhttp.open("GET", SearchString, true); //(3) open connection to a url
-            xhttp.send(); //(4) sending the object to the webserver.
+            xhttp.open("GET", SearchString, true); //open connection to a url
+            xhttp.send(); //sending request
 
         }
 
     )
 
+    //function to create table
     function weatherTable(weather) {
-        weather.id = $.now();
+        weather.id = $.now();//use clock as a unique key
         var row = $('<tr>');
         var html = '<td>' + weather.name + '</td>' +
             '<td>' + weather.sys.country + '</td>' +
@@ -122,7 +119,7 @@ $(document).ready(function(){
             '<td>' + new Date(weather.sys.sunset * 1000).toLocaleTimeString() + '</td>' +
             '<td><a class="delete" href="#">DELETE</a></td>';
         row.data().weatherID = weather.id;
-        row.append(html);
+        row.append(html);//
         //save in the the browser's Local Storage
         saveLocalStorage(weather);
 
@@ -132,12 +129,14 @@ $(document).ready(function(){
     }
 
     function saveLocalStorage(weather) {
+        //get string data from the whole array from storage
         var currentWeather = localStorage.getItem('weather');
-        var storage = [];
-        if (currentWeather) {
-            storage = JSON.parse(currentWeather);
+        var storage = []; //create empty array
+        if (currentWeather) {//if there are any data in storage
+            storage = JSON.parse(currentWeather); // load contacts array with that data
         }
-        storage.push(weather);
+        storage.push(weather); // add new contact to end of array
+        //overwriting any existing 'weather' key with new stringified array
         localStorage.setItem('weather', JSON.stringify(storage));
     }
 
